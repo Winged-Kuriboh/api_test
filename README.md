@@ -33,8 +33,6 @@
 ## 安装依赖
 
 ```bash
-#2选1
-使用包管理工具 uv 
 pip install -r requirements.txt
 ```
 
