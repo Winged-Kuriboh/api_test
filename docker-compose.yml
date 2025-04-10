@@ -1,0 +1,13 @@
+services:
+  test-framework:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./logs:/app/logs
+      - ./config:/app/config
+      - ./testcases:/app/testcases
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
+    command: pytest

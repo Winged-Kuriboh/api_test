@@ -1,0 +1,11 @@
+.pytest_cache
+.DS_Store
+.vscode
+__pycache__
+.venv
+.python-version
+logs/*
+utils/__pycache__
+assets
+report.html
+users.db

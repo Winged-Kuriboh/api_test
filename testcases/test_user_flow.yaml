@@ -1,0 +1,54 @@
+- name: "用户注册接口测试"
+  request:
+    method: POST
+    url: "/api/users"
+    json:
+      username: "testuser"
+      email: "test@example.com"
+  extract:
+    user_id: "$.id"
+  validate:
+    status_code: 200
+    message: "User created successfully"
+
+- name: "用户注册参数化测试"
+  parametrize:
+    - username: "user1"
+      email: "user1@example.com"
+    - username: "user2"
+      email: "user2@example.com"
+  request:
+    method: POST
+    url: "/api/users"
+    json:
+      username: "${username}"
+      email: "${email}"
+  validate:
+    status_code: 200
+
+- name: "获取用户信息测试"
+  request:
+    method: GET
+    url: "/api/users/${user_id}"
+  validate:
+    status_code: 200
+    username: "testuser"
+    email: "test@example.com"
+
+- name: "更新用户信息测试"
+  request:
+    method: PUT
+    url: "/api/users/${user_id}"
+    json:
+      email: "updated@example.com"
+  validate:
+    status_code: 200
+    message: "User updated successfully"
+
+- name: "删除用户测试"
+  request:
+    method: DELETE
+    url: "/api/users/${user_id}"
+  validate:
+    status_code: 200
+    message: "User deleted successfully"
