@@ -1,5 +1,6 @@
 import os
 import pytest
+from sqlalchemy import false
 import yaml
 from loguru import logger
 from typing import Dict, Any
@@ -30,7 +31,7 @@ def setup_logging():
     from utils.log_config import setup_logger
     return setup_logger()
 
-@pytest.fixture(autouse=True)
+@pytest.fixture(autouse=False)
 def setup_database():
     """初始化数据库"""
     with app.app_context():

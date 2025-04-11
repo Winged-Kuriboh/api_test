@@ -31,8 +31,29 @@ class HTTPClient:
                 processed_data[key] = value
         return processed_data
 
+    def _replace_url_variables(self, url: str) -> str:
+        """处理URL中的变量引用"""
+        if not url:
+            return url
+        
+        import re
+        pattern = r'\${([^}]+)}'
+        matches = re.finditer(pattern, url)
+        
+        result = url
+        for match in matches:
+            var_name = match.group(1)
+            var_value = self.get_variable(var_name)
+            if var_value is not None:
+                result = result.replace(f'${{{var_name}}}', str(var_value))
+            else:
+                logger.warning(f"Variable {var_name} not found for URL substitution")
+        return result
+
     def request(self, method: str, url: str, **kwargs) -> requests.Response:
         """发送HTTP请求"""
+        # 处理URL中的变量
+        url = self._replace_url_variables(url)
         full_url = f"{self.base_url}{url}" if self.base_url else url
         
         # 处理请求参数中的变量
